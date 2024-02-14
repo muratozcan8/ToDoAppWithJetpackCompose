@@ -1,4 +1,4 @@
-package com.muratozcan.todoappwithjetpactcompose.ui.theme
+package com.muratozcan.todoappwithjetpackcompose.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

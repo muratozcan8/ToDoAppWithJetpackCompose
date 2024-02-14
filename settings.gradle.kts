@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ToDoAppWithJetpactCompose"
+rootProject.name = "ToDoAppWithJetpackCompose"
 include(":app")

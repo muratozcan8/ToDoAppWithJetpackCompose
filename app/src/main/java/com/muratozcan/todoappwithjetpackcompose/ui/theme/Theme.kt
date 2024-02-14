@@ -1,4 +1,4 @@
-package com.muratozcan.todoappwithjetpactcompose.ui.theme
+package com.muratozcan.todoappwithjetpackcompose.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -16,15 +16,13 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = Dark500,
+    secondary = Dark200,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Dark500,
+    secondary = Dark200,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -38,10 +36,10 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun ToDoAppWithJetpactComposeTheme(
+fun ToDoAppWithJetpackComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -58,7 +56,7 @@ fun ToDoAppWithJetpactComposeTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }
 

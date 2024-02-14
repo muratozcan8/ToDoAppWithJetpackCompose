@@ -1,14 +1,15 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
-    namespace = "com.muratozcan.todoappwithjetpactcompose"
+    namespace = "com.muratozcan.todoappwithjetpackcompose"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.muratozcan.todoappwithjetpactcompose"
+        applicationId = "com.muratozcan.todoappwithjetpackcompose"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -66,4 +67,12 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("io.insert-koin:koin-android:3.4.0")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.4")
+
+    implementation("androidx.room:room-runtime:2.5.2")
+    annotationProcessor("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+    kapt("androidx.room:room-compiler:2.5.2")
 }

@@ -1,4 +1,4 @@
-package com.muratozcan.todoappwithjetpactcompose
+package com.muratozcan.todoappwithjetpackcompose
 
 import org.junit.Test
 
