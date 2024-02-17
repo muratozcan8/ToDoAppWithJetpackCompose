@@ -279,12 +279,21 @@ fun LazyItemScope.TodoItem(todo:TodoEntity, onclick: () -> Unit, onDelete: () ->
                 .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Default.Delete, tint = Color.White, contentDescription = null, modifier = Modifier.clickable {
+                Icon(
+                    Icons.Default.Delete,
+                    tint = Color.White,
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
                     onDelete()
                 })
             }
         }
         
-        Text(modifier = Modifier.padding(4.dp), text = todo.addDate, color = Color(0xffebeb), fontSize = 10.sp)
+        Text(
+            modifier = Modifier.padding(4.dp),
+            text = todo.addDate,
+            color = Color(0xffebebeb),
+            fontSize = 10.sp
+        )
     }
 }
