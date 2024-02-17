@@ -1,12 +1,16 @@
 package com.muratozcan.todoappwithjetpackcompose.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +24,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -57,7 +62,7 @@ import com.muratozcan.todoappwithjetpackcompose.database.TodoEntity
 import com.muratozcan.todoappwithjetpackcompose.database.addDate
 import com.muratozcan.todoappwithjetpackcompose.ui.theme.ubuntuFont
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
@@ -85,7 +90,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    value = "title",
+                    value = title,
                     onValueChange = {
                                     setTitle(it)
                     },
@@ -95,33 +100,39 @@ fun HomeScreen(
                     }, colors = OutlinedTextFieldDefaults.colors(
                         unfocusedTextColor = Color.White,
                         focusedBorderColor = Color.White,
-                        focusedTextColor = Color.White,
+                        focusedLabelColor = Color.White,
+                        cursorColor = Color.White,
+                        focusedTextColor = Color.White
                     )
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 OutlinedTextField(
-                    value = "subTitle",
+                    value = subTitle,
                     onValueChange = {
                                     setSubtitle(it)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     label = {
-                        Text(text = "Title")
+                        Text(text = "Sub Title")
                     }, colors = OutlinedTextFieldDefaults.colors(
                         unfocusedTextColor = Color.White,
                         focusedBorderColor = Color.White,
                         focusedLabelColor = Color.White,
+                        cursorColor = Color.White,
+                        focusedTextColor = Color.White
                     )
                 )
                 Spacer(modifier = Modifier.height(18.dp))
-                Button(onClick = {
-                                 if (title.isNotEmpty() && subTitle.isNotEmpty()){
-                                     viewModel.addTodo(TodoEntity(
-                                         title = title,
-                                         subTitle = subTitle
-                                     ))
-                                     setDialogOpen(false)
-                                 }
+                Button(
+                    onClick = {
+                        if (title.isNotEmpty() && subTitle.isNotEmpty()){
+                            viewModel.addTodo(TodoEntity(
+                                title = title,
+                                subTitle = subTitle
+                                )
+                            )
+                            setDialogOpen(false)
+                        }
                 },
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier.fillMaxWidth(),
@@ -152,7 +163,8 @@ fun HomeScreen(
             .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            AnimatedVisibility(visible = todos.isEmpty(),
+            AnimatedVisibility(
+                visible = todos.isEmpty(),
                 enter = scaleIn() + fadeIn(),
                 exit = scaleOut() + fadeOut()
             ) {
@@ -186,15 +198,21 @@ fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TodoItem(todo:TodoEntity, onclick: () -> Unit, onDelete: () -> Unit) {
+fun LazyItemScope.TodoItem(todo:TodoEntity, onclick: () -> Unit, onDelete: () -> Unit) {
     val color by animateColorAsState(
         targetValue = if (todo.done) Color(0xff24d65f) else Color(
             0xffff6363
         ), animationSpec = tween(500), label = ""
     )
 
-    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd) {
+    Box(modifier = Modifier.fillMaxWidth().animateItemPlacement(
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    ), contentAlignment = Alignment.BottomEnd) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -250,7 +268,7 @@ fun TodoItem(todo:TodoEntity, onclick: () -> Unit, onDelete: () -> Unit) {
                     Text(
                         text = todo.subTitle,
                         fontSize = 12.sp,
-                        color = Color(0xffebeb)
+                        color = Color(0xffffebeb)
                     )
                 }
             }
